@@ -1,23 +1,24 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import reducer from '@/modules/counter/counterSlice'
-import { createWrapper } from 'next-redux-wrapper';
-import logger from 'redux-logger';
-const isDev = process.env.NODE_ENV === 'development';
-const makeStore = () =>
-  configureStore({
-    reducer,
-    middleware: getDefaultMiddleware =>
-      isDev ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware(),
-    devTools: isDev,
-  });
+import { createWrapper } from 'next-redux-wrapper'
+import logger from 'redux-logger'
 
-export const wrapper = createWrapper(makeStore, {
-  debug: isDev,
-});
+const isDev = process.env.NODE_ENV === 'development'
 
-const store = makeStore();
+const makestore = () =>
+    configureStore({
+        reducer,
+        middleware: getDefaultMiddleware =>
+            isDev ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware(),
+        devTools: isDev
+    });
 
-// type 정의
+export const wrapper = createWrapper(makestore, {
+    debug: isDev
+}) ;
+
+const store = makestore();
+
 export type AppState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
